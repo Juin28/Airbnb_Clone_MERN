@@ -9,12 +9,15 @@ const imageDownloader = require("image-downloader");
 const mongoose = require("mongoose");
 const User = require("./models/User");
 const app = express();
+const multer = require("multer");
+const fs = require("fs");
 
 const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = process.env.JWT_SECRET;;
 
 app.use(express.json());
 app.use(cookieParser());
+app.use('/uploads', express.static(__dirname + '/uploads'));    // so that the images can be displayed by using API
 app.use(cors({
     credentials: true,
     origin: "http://localhost:5173"
@@ -90,18 +93,30 @@ app.get("/profile", async (req, res) => {
 
 app.post("/logout", (req, res) => {
     res.cookie('token', '').json(true);
-})
+});
 
 app.post('/upload-by-link', async (req, res) => {
     const { link } = req.body;
-    const newName = Date.now() + '.jpg';
+    const newName = 'photo' + Date.now() + '.jpg';
     await imageDownloader.image ({
         url: link,
         dest: __dirname + '/uploads/' + newName,
     });
 
-    res.json(__dirname + '/uploads/' + newName);
+    res.json(newName);
+});
 
-})
+const photosMiddleware = multer({ dest: 'uploads'});
+app.post('/upload', photosMiddleware.array('photos', 100), async (req, res) => {
+    const uploadedFiles = [];
+    for (let i = 0; i < req.files.length; i++) {
+        const { path, originalname } = req.files[i];
+        const ext = originalname.split('.').pop();
+        const newPath = path + '.' + ext;
+        fs.renameSync(path, newPath);
+        uploadedFiles.push(newPath);
+    }
+    res.json(uploadedFiles);
+});
 
 app.listen(3000)

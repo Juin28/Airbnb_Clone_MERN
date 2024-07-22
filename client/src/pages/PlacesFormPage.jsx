@@ -19,12 +19,24 @@ export default function PlacesFormPage() {
     const [maxGuests, setMaxGuests] = useState('1');
     const [redirect, setRedirect] = useState(false);
 
-    useEffect(async () => {
+    useEffect(() => {
         if (!id) {
             return;
         }
 
-        await axios.get(`/places/${id}`)
+        axios.get('/places/' + id).then(response => {
+            const { data } = response;
+            setTitle(data.title);
+            setAddress(data.address);
+            setAddedPhotos(data.photos);
+            setDescription(data.description);
+            setPerks(data.perks);
+            setExtraInfo(data.extraInfo);
+            setCheckIn(data.checkIn);
+            setCheckOut(data.checkOut);
+            setMaxGuests(data.maxGuests);
+        });
+
     }, [id]);
 
     function inputHeader(text) {
@@ -48,13 +60,23 @@ export default function PlacesFormPage() {
         );
     }
 
-    async function addNewPlace(ev) {
+    async function savePlace(ev) {
         ev.preventDefault();
-        await axios.post('/places', { 
+        const placeData = {
             title, address, addedPhotos, 
             description, perks, extraInfo, 
             checkIn, checkOut, maxGuests 
+        }
+
+        if (id) {
+            // update exisitng place
+            await axios.put('/places', { 
+                id, ...placeData
         });
+        } else {
+            // create new place
+            await axios.post('/places', placeData);
+        }
         setRedirect(true);
     }
 
@@ -65,7 +87,7 @@ export default function PlacesFormPage() {
     return (
         <div>
             <AccountNavigate />
-            <form onSubmit={addNewPlace}>
+            <form onSubmit={savePlace}>
                 {preInput("Title", "Title for your place, should be short and catchy as in advertisement")}
                 <input
                     type="text"

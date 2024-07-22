@@ -8,9 +8,11 @@ const cookieParser = require("cookie-parser");
 const imageDownloader = require("image-downloader");
 const mongoose = require("mongoose");
 const User = require("./models/User");
+const Place = require("./models/Place");
 const app = express();
 const multer = require("multer");
 const fs = require("fs");
+const path = require('path');
 
 const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = process.env.JWT_SECRET;;
@@ -110,13 +112,52 @@ const photosMiddleware = multer({ dest: 'uploads'});
 app.post('/upload', photosMiddleware.array('photos', 100), async (req, res) => {
     const uploadedFiles = [];
     for (let i = 0; i < req.files.length; i++) {
-        const { path, originalname } = req.files[i];
+        const { path: filePath, originalname } = req.files[i];
         const ext = originalname.split('.').pop();
-        const newPath = path + '.' + ext;
-        fs.renameSync(path, newPath);
-        uploadedFiles.push(newPath);
+        const newPath = filePath + '.' + ext;
+        fs.renameSync(filePath, newPath);
+        // uploadedFiles.push(newPath);
+        uploadedFiles.push(path.basename(newPath));
     }
     res.json(uploadedFiles);
+});
+
+app.post('/places', async (req, res) => {
+    const { token } = req.cookies;
+    const { 
+        title, address, addedPhotos, 
+        description, perks, extraInfo, 
+        checkIn, checkOut, maxGuests 
+    } = req.body;
+
+    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+        if (err) {
+            res.status(StatusCodes.UNAUTHORIZED).json(err);
+        }
+        
+        const placeDoc = await Place.create({
+            owner: userData.id,
+            title, address, photos: addedPhotos, 
+            description, perks, extraInfo, 
+            checkIn, checkOut, maxGuests 
+        })
+
+        res.json(placeDoc);
+    });
+});
+
+app.get('/places', async (req, res) => {
+    const { token } = req.cookies;
+
+    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+        if (err) {
+            res.status(StatusCodes.UNAUTHORIZED).json(err);
+        }
+        
+        const { id } = userData;
+        res.json( await Place.find({ owner: id }));
+    });
+
 });
 
 app.listen(3000)

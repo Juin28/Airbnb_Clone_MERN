@@ -23,9 +23,19 @@ const PlaceSchema = new mongoose.Schema({
     },
     perks: [String],
     extraInfo: String,
-    checkIn: String,
-    checkOut: String,
+    checkIn: {
+        type: String,
+        required: [true, "Check-in time is required"]
+    },
+    checkOut: {
+        type: String,
+        required: [true, "Check-out time is required"]
+    },
     maxGuests: Number,
+    price: {
+        type: Number,
+        required: [true, "Price is required"]
+    },
 });
 
 const PlaceModel = mongoose.model("Place", PlaceSchema);

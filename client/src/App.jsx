@@ -6,6 +6,9 @@ import RegisterPage from './pages/RegisterPage'
 import ProfilePage from './pages/ProfilePage'
 import PlacesPage from './pages/PlacesPage'
 import PlacesFormPage from './pages/PlacesFormPage'
+import PlacePage from './pages/PlacePage'
+import BookingsPage from './pages/BookingsPage'
+import BookingPage from './pages/BookingPage'
 import './App.css'
 import axios from 'axios'
 import { UserContextProvider } from './UserContext'
@@ -25,6 +28,9 @@ function App() {
           <Route path="/account/places" element={<PlacesPage />} />
           <Route path="/account/places/new" element={<PlacesFormPage />} />
           <Route path="/account/places/:id" element={<PlacesFormPage />} />
+          <Route path="/place/:id" element={<PlacePage />} />
+          <Route path="/account/bookings" element={<BookingsPage />} />
+          <Route path="/account/bookings/:id" element={<BookingPage />} />
           <Route path='*' element={<h1>Not Found</h1>} />
         </Route>
       </Routes>

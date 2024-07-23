@@ -16,7 +16,8 @@ export default function PlacesFormPage() {
     const [extraInfo, setExtraInfo] = useState('');
     const [checkIn, setCheckIn] = useState('');
     const [checkOut, setCheckOut] = useState('');
-    const [maxGuests, setMaxGuests] = useState('1');
+    const [maxGuests, setMaxGuests] = useState(1);
+    const [price, setPrice] = useState(100);
     const [redirect, setRedirect] = useState(false);
 
     useEffect(() => {
@@ -35,6 +36,7 @@ export default function PlacesFormPage() {
             setCheckIn(data.checkIn);
             setCheckOut(data.checkOut);
             setMaxGuests(data.maxGuests);
+            setPrice(data.price);
         });
 
     }, [id]);
@@ -65,7 +67,7 @@ export default function PlacesFormPage() {
         const placeData = {
             title, address, addedPhotos, 
             description, perks, extraInfo, 
-            checkIn, checkOut, maxGuests 
+            checkIn, checkOut, maxGuests, price
         }
 
         if (id) {
@@ -120,7 +122,7 @@ export default function PlacesFormPage() {
                     onChange={ev => setExtraInfo(ev.target.value)} 
                 />
                 {preInput("Check in & out times, max guests", "Add check in and out times, remeber to have some time window for cleaning the room between guests.")}
-                <div className="grid gap-2 sm:grid-cols-3">
+                <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-4">
                     <div>
                         <h3 className="mt-2 -mb-1">Check in time</h3>
                         <input 
@@ -145,6 +147,15 @@ export default function PlacesFormPage() {
                             type="number" 
                             value={maxGuests}
                             onChange={ev => setMaxGuests(ev.target.value)}
+                            placeholder="4"
+                        />
+                    </div>
+                    <div>
+                        <h3 className="mt-2 -mb-1">Price per night</h3>
+                        <input 
+                            type="number" 
+                            value={price}
+                            onChange={ev => setPrice(ev.target.value)}
                             placeholder="4"
                         />
                     </div>

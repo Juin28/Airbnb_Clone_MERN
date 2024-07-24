@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function PlaceGallery({ place }) {
+export default function PlaceGallery({ place, className }) {
     const [showAllPhotos, setShowAllPhotos] = useState(false);
 
     if (showAllPhotos) {
@@ -17,8 +17,8 @@ export default function PlaceGallery({ place }) {
                         </button>
                     </div>
                     {place?.photos?.length > 0 && place.photos.map(photo => (
-                        <div>
-                            <img className="w-full" src={`http://localhost:3000/uploads/${photo}`} alt="place" />
+                        <div className="flex justify-center">
+                            <img className="w-100" src={`http://localhost:3000/uploads/${photo}`} alt="place" />
                         </div>
                     ))}
                 </div>
@@ -27,23 +27,23 @@ export default function PlaceGallery({ place }) {
     }
 
     return (
-        <div className="relative">
+        <div className={"relative " + className}>
             <div className="grid gap-2 grid-cols-[2fr_1fr] rounded-3xl overflow-hidden">
                 <div>
                     {place.photos?.[0] && (
                         <div>
-                            <img onClick={() => setShowAllPhotos(true)} className="object-cover aspect-square cursor-pointer" src={`http://localhost:3000/uploads/${place.photos[0]}`} alt="place" />
+                            <img onClick={() => setShowAllPhotos(true)} className="object-cover aspect-square cursor-pointer w-full" src={`http://localhost:3000/uploads/${place.photos[0]}`} alt="place" />
                         </div>
                     )}
                 </div>
                 <div className="grid">
                     {place.photos?.[1] && (
-                        <img onClick={() => setShowAllPhotos(true)} className="object-cover aspect-square cursor-pointer" src={`http://localhost:3000/uploads/${place.photos[1]}`} alt="place" />
+                        <img onClick={() => setShowAllPhotos(true)} className="object-cover aspect-square cursor-pointer w-full" src={`http://localhost:3000/uploads/${place.photos[1]}`} alt="place" />
                     )}
 
                     <div className="overflow-hidden">
                         {place.photos?.[2] && (
-                            <img onClick={() => setShowAllPhotos(true)} className="object-cover aspect-square relative top-2 cursor-pointer" src={`http://localhost:3000/uploads/${place.photos[2]}`} alt="place" />
+                            <img onClick={() => setShowAllPhotos(true)} className="object-cover aspect-square relative top-2 cursor-pointer w-full" src={`http://localhost:3000/uploads/${place.photos[2]}`} alt="place" />
                         )}
                     </div>
                 </div>

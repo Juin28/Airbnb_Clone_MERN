@@ -28,6 +28,13 @@ app.use(cors({
     origin: ["http://localhost:3000", "http://localhost:5173", "https://airbnb-clone-mern-api.vercel.app"]
 }));
 
+// const uploadsDir = path.join(__dirname, 'uploads');
+
+// // Create the uploads directory if it doesn't exist
+// if (!fs.existsSync(uploadsDir)) {
+//     fs.mkdirSync(uploadsDir, { recursive: true, mode: 0o755 });
+// }
+
 // mongoose.connect(process.env.MONGO_URL);
 
 function getUserDataFromReq(req) {
@@ -40,6 +47,10 @@ function getUserDataFromReq(req) {
         });
     });
 };
+
+app.get("/", (req, res) => {
+    res.json("Airbnb Clone API");
+});
 
 app.get("/test", (req, res) => {
     res.json("Test OK");
@@ -111,18 +122,53 @@ app.post("/logout", (req, res) => {
     res.cookie('token', '').json(true);
 });
 
+// Set up Multer storage configuration
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, 'uploads/');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, `photo-${Date.now()}.jpg`);
+//     },
+// });
+
+// Initialize Multer with the storage configuration
+// const upload = multer({ storage: storage });
+
+// Route handler that uses Multer
+// app.post('/upload-by-link', upload.single('photos'), async (req, res) => {
+//     if (!req.file) {
+//         return res.status(400).json({ error: 'Uploaded file should not be empty' });
+//     }
+
+//     // Access the uploaded file through req.file
+//     const { filename } = req.file;
+
+//     res.json({ filename });
+// });
+
+const uploadsDir = __dirname + '/uploads/';
+// Create the uploads directory if it doesn't exist
+if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true, mode: 0o755 });
+}
+
 app.post('/upload-by-link', async (req, res) => {
     const { link } = req.body;
     const newName = 'photo' + Date.now() + '.jpg';
+    const uploadsPath = uploadsDir + newName;
+
     await imageDownloader.image({
         url: link,
-        dest: __dirname + '/uploads/' + newName,
+        // dest: __dirname + '/uploads/' + newName,
+        dest: uploadsPath,
     });
 
     res.json(newName);
 });
 
 const photosMiddleware = multer({ dest: 'uploads' });
+// const photosMiddleware = multer({ storage: storage });
 app.post('/upload', photosMiddleware.array('photos', 100), async (req, res) => {
     const uploadedFiles = [];
     for (let i = 0; i < req.files.length; i++) {

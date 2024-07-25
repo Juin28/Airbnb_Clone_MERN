@@ -23,7 +23,9 @@ app.use(cookieParser());
 app.use('/uploads', express.static(__dirname + '/uploads'));    // so that the images can be displayed by using API
 app.use(cors({
     credentials: true,
-    origin: "https://airbnb-clone-mern-api.vercel.app"
+    // origin: "https://airbnb-clone-mern-api.vercel.app"
+    // origin: "http://localhost:3000"
+    origin: ["http://localhost:3000", "http://localhost:5173", "https://airbnb-clone-mern-api.vercel.app"]
 }));
 
 // mongoose.connect(process.env.MONGO_URL);

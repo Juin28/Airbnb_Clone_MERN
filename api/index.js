@@ -25,7 +25,7 @@ app.use(cors({
     credentials: true,
     // origin: "https://airbnb-clone-mern-api.vercel.app"
     // origin: "http://localhost:3000"
-    origin: ["http://localhost:3000", "http://localhost:5173", "https://airbnb-clone-mern-api.vercel.app"]
+    origin: ["http://localhost:3000", "http://localhost:5173"]
 }));
 
 // const uploadsDir = path.join(__dirname, 'uploads');

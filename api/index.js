@@ -15,22 +15,22 @@ const multer = require("multer");
 const fs = require("fs");
 const path = require('path');
 
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:5173");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+// app.use(function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "http://localhost:5173");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+// });
 
-app.use(cors({
-    credentials: true,
-    // origin: "https://airbnb-clone-mern-api.vercel.app"
-    // origin: "http://localhost:3000"
-    // origin: ["http://localhost:3000", "http://localhost:5173"]
-    origin: "http://localhost:5173",
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}));
-app.options('*', cors());
+// app.use(cors({
+//     credentials: true,
+//     // origin: "https://airbnb-clone-mern-api.vercel.app"
+//     // origin: "http://localhost:3000"
+//     // origin: ["http://localhost:3000", "http://localhost:5173"]
+//     origin: "http://localhost:5173",
+//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//     allowedHeaders: ['Content-Type', 'Authorization']
+// }));
+// app.options('*', cors());
 
 const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = process.env.JWT_SECRET;;

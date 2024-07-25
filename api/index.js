@@ -25,15 +25,11 @@ app.use(cors({
     credentials: true,
     // origin: "https://airbnb-clone-mern-api.vercel.app"
     // origin: "http://localhost:3000"
-    origin: ["http://localhost:3000", "http://localhost:5173"]
+    // origin: ["http://localhost:3000", "http://localhost:5173"]
+    origin: "http://localhost:5173"
 }));
 
-// const uploadsDir = path.join(__dirname, 'uploads');
 
-// // Create the uploads directory if it doesn't exist
-// if (!fs.existsSync(uploadsDir)) {
-//     fs.mkdirSync(uploadsDir, { recursive: true, mode: 0o755 });
-// }
 
 // mongoose.connect(process.env.MONGO_URL);
 

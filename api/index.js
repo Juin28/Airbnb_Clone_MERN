@@ -15,21 +15,23 @@ const multer = require("multer");
 const fs = require("fs");
 const path = require('path');
 
+app.use(cors({
+    credentials: true,
+    // origin: "https://airbnb-clone-mern-api.vercel.app"
+    // origin: "http://localhost:3000"
+    // origin: ["http://localhost:3000", "http://localhost:5173"]
+    origin: "http://localhost:5173",
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+app.options('*', cors());
+
 const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = process.env.JWT_SECRET;;
 
 app.use(express.json());
 app.use(cookieParser());
 app.use('/uploads', express.static(__dirname + '/uploads'));    // so that the images can be displayed by using API
-app.use(cors({
-    credentials: true,
-    // origin: "https://airbnb-clone-mern-api.vercel.app"
-    // origin: "http://localhost:3000"
-    // origin: ["http://localhost:3000", "http://localhost:5173"]
-    origin: "http://localhost:5173"
-}));
-
-
 
 // mongoose.connect(process.env.MONGO_URL);
 

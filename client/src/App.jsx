@@ -13,7 +13,8 @@ import './App.css'
 import axios from 'axios'
 import { UserContextProvider } from './UserContext'
 
-axios.defaults.baseURL = "http://localhost:3000";
+// axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.baseURL = "https://airbnb-clone-mern-api-7gzu.onrender.com";
 axios.defaults.withCredentials = true;
 
 function App() {

@@ -7,6 +7,7 @@ export default function PlaceImg({ place, index=0, className=null }) {
     
     }
     return (
-        <img src={`http://localhost:3000/uploads/${place.photos[index]}`} alt="place" className={className} />
+        // <img src={`http://localhost:3000/uploads/${place.photos[index]}`} alt="place" className={className} />
+        <img src={`https://airbnb-clone-mern-api-7gzu.onrender.com/uploads/${place.photos[index]}`} alt="place" className={className} />
     )
 }

@@ -18,7 +18,8 @@ export default function PlaceGallery({ place, className }) {
                     </div>
                     {place?.photos?.length > 0 && place.photos.map(photo => (
                         <div className="flex justify-center">
-                            <img className="w-100" src={`http://localhost:3000/uploads/${photo}`} alt="place" />
+                            {/* <img className="w-100" src={`http://localhost:3000/uploads/${photo}`} alt="place" /> */}
+                            <img className="w-100" src={`https://airbnb-clone-mern-api-7gzu.onrender.com/uploads/${photo}`} alt="place" />
                         </div>
                     ))}
                 </div>
@@ -32,18 +33,21 @@ export default function PlaceGallery({ place, className }) {
                 <div>
                     {place.photos?.[0] && (
                         <div>
-                            <img onClick={() => setShowAllPhotos(true)} className="object-cover aspect-square cursor-pointer w-full" src={`http://localhost:3000/uploads/${place.photos[0]}`} alt="place" />
+                            {/* <img onClick={() => setShowAllPhotos(true)} className="object-cover aspect-square cursor-pointer w-full" src={`http://localhost:3000/uploads/${place.photos[0]}`} alt="place" /> */}
+                            <img onClick={() => setShowAllPhotos(true)} className="object-cover aspect-square cursor-pointer w-full" src={`https://airbnb-clone-mern-api-7gzu.onrender.com/uploads/${place.photos[0]}`} alt="place" />
                         </div>
                     )}
                 </div>
                 <div className="grid">
                     {place.photos?.[1] && (
-                        <img onClick={() => setShowAllPhotos(true)} className="object-cover aspect-square cursor-pointer w-full" src={`http://localhost:3000/uploads/${place.photos[1]}`} alt="place" />
+                        // <img onClick={() => setShowAllPhotos(true)} className="object-cover aspect-square cursor-pointer w-full" src={`http://localhost:3000/uploads/${place.photos[1]}`} alt="place" />
+                        <img onClick={() => setShowAllPhotos(true)} className="object-cover aspect-square cursor-pointer w-full" src={`https://airbnb-clone-mern-api-7gzu.onrender.com/uploads/${place.photos[1]}`} alt="place" />
                     )}
 
                     <div className="overflow-hidden">
                         {place.photos?.[2] && (
-                            <img onClick={() => setShowAllPhotos(true)} className="object-cover aspect-square relative top-2 cursor-pointer w-full" src={`http://localhost:3000/uploads/${place.photos[2]}`} alt="place" />
+                            // <img onClick={() => setShowAllPhotos(true)} className="object-cover aspect-square relative top-2 cursor-pointer w-full" src={`http://localhost:3000/uploads/${place.photos[2]}`} alt="place" />
+                            <img onClick={() => setShowAllPhotos(true)} className="object-cover aspect-square relative top-2 cursor-pointer w-full" src={`https://airbnb-clone-mern-api-7gzu.onrender.com/uploads/${place.photos[2]}`} alt="place" />
                         )}
                     </div>
                 </div>

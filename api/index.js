@@ -82,22 +82,28 @@ app.post("/login", async (req, res) => {
         const userDoc = await User.findOne({ email });
 
         if (!userDoc) {
-            throw new Error("User not found");
-        }
-        if (!bcrypt.compareSync(password, userDoc.password)) {
-            throw new Error("Invalid password");
+            // throw new Error("User not found");
+            res.status(StatusCodes.UNAUTHORIZED).json("User not found");
         }
 
-        jwt.sign({
-            email: userDoc.email,
-            id: userDoc._id,
-            name: userDoc.name
-        }, jwtSecret, {}, (err, token) => {
-            if (err) {
-                throw err;
-            }
-            res.cookie('token', token).json(userDoc);
-        })
+        else if (!bcrypt.compareSync(password, userDoc.password)) {
+            // throw new Error("Invalid password");
+            res.status(StatusCodes.UNAUTHORIZED).json("Invalid password");
+        }
+
+        else {
+            jwt.sign({
+                email: userDoc.email,
+                id: userDoc._id,
+                name: userDoc.name
+            }, jwtSecret, {}, (err, token) => {
+                if (err) {
+                    throw err;
+                }
+                res.cookie('token', token).json(userDoc);
+            })
+        }
+
 
     } catch (error) {
         res.status(StatusCodes.UNAUTHORIZED).json(error);
